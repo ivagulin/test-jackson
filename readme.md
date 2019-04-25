@@ -1,30 +1,18 @@
 	Benchmark                        Mode  Samples    Score  Score error  Units
-	c.i.MyBenchmark.testMaps         thrpt        5  477.027        8.287  ops/s
-	c.i.MyBenchmark.testNodes        thrpt        5  605.159       25.073  ops/s
-	c.i.MyBenchmark.testArrayNode    thrpt        5  556.200       21.547  ops/s
-
+	c.i.MyBenchmark.testMaps         thrpt        5  179.373       11.926  ops/s
+	c.i.MyBenchmark.testNodes        thrpt        5  199.771       10.962  ops/s
+	c.i.MyBenchmark.testArrayNode    thrpt        5  154.871        8.230  ops/s
+	
 	....[Thread state: RUNNABLE]........................................................................
-	 80.8%  88.3% com.fasterxml.jackson.databind.node.ObjectNode.serialize
-	  6.4%   7.0% java.io.ByteArrayOutputStream.ensureCapacity
-	  3.4%   3.7% com.ivagulin.MyBenchmark.testNodes
-	  0.2%   0.2% org.openjdk.jmh.runner.LoopBenchmarkHandler$BenchmarkTask.call
-	  0.2%   0.2% java.lang.Class.isAssignableFrom
-	  0.2%   0.2% java.lang.Thread.isInterrupted
-	  0.2%   0.2% sun.reflect.NativeMethodAccessorImpl.invoke0
-	  0.2%   0.2% sun.reflect.Reflection.getClassAccessFlags
+	 34.7%  38.1% com.fasterxml.jackson.databind.deser.std.BaseNodeDeserializer.deserializeObject
+	 24.9%  27.3% com.fasterxml.jackson.databind.node.ObjectNode.serialize
+	 16.4%  18.0% com.fasterxml.jackson.core.json.ReaderBasedJsonParser._skipComma
+	  3.6%   3.9% java.io.ByteArrayOutputStream.ensureCapacity
+	  3.1%   3.3% com.fasterxml.jackson.databind.ObjectMapper.readTree
+	  2.2%   2.4% com.fasterxml.jackson.core.json.ReaderBasedJsonParser._parsePosNumber
+	  1.4%   1.5% java.util.HashMap.putVal
+	  1.2%   1.3% com.ivagulin.MyBenchmark.testNodes
+	  1.0%   1.1% java.util.HashMap.resize
+	  0.7%   0.7% com.fasterxml.jackson.core.json.ReaderBasedJsonParser._skipWSOrEnd
+	  2.0%   2.2% <other>
 	
-	  
-	 ....[Thread state: RUNNABLE]........................................................................
-	 76.2%  83.3% com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeFields
-	  6.6%   7.2% java.io.ByteArrayOutputStream.ensureCapacity
-	  5.1%   5.6% com.fasterxml.jackson.databind.ser.std.MapSerializer.serialize
-	  1.9%   2.0% com.ivagulin.MyBenchmark.testMaps
-	  0.3%   0.4% java.lang.Class.isPrimitive
-	  0.3%   0.4% java.lang.Thread.currentThread
-	  0.2%   0.2% java.util.HashMap.hash
-	  0.2%   0.2% sun.misc.Unsafe.compareAndSwapInt
-	  0.2%   0.2% sun.reflect.Reflection.getClassAccessFlags
-	  0.2%   0.2% com.fasterxml.jackson.databind.ser.DefaultSerializerProvider._serialize
-	  0.3%   0.4% <other>
-	
- 

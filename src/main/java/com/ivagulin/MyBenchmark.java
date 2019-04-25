@@ -69,54 +69,67 @@ public class MyBenchmark {
 	}
 
 	private Map<String, String> generateApsInfo() {
-		return ImmutableMap.of("modified", "2019-02-28T08:28:18Z", "id", "c5d43bb6-92b0-4607-9b57-bd120215d9dc", "type",
-				"http://parallels.com/aps/types/pa/admin-user/1.2", "status", "aps:ready", "revision", "2");
+		return ImmutableMap.of(
+				"modified", "2019-02-28T08:28:18Z", 
+				"id", "c5d43bb6-92b0-4607-9b57-bd120215d9dc", 
+				"type", "http://parallels.com/aps/types/pa/admin-user/1.2", 
+				"status", "aps:ready", 
+				"revision", "2"
+				);
 
 	}
+	
+	private JsonNode generateApsNode(ObjectMapper mapper) {
+		ObjectNode on = mapper.createObjectNode();
+		on.put("modified", "2019-02-28T08:28:18Z"); 
+		on.put("id", "c5d43bb6-92b0-4607-9b57-bd120215d9dc");
+		on.put("type", "http://parallels.com/aps/types/pa/admin-user/1.2"); 
+		on.put("status", "aps:ready");
+		on.put("revision", "2");
+		return on;
+	}
 
-    @Benchmark
-    public void testMaps(MyState state) throws Exception {
-    	@SuppressWarnings("unchecked")
-		Map<String, String> properties = state.defaultMapper.readValue(state.user, Map.class);
-    	Map<String,Object> rv = new HashMap<>();
-    	rv.putAll(properties);
-    	rv.put("aps", generateApsInfo());
-    	ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-    	JsonGenerator generator = state.defaultMapper.getFactory().createGenerator(outStream);
-    	generator.writeStartArray();
-    	for(int i=0; i<1000; i++) {
-    		generator.writeObject(rv);
-    	}
-    	generator.writeEndArray();
-    	generator.flush();
-    }
+//    @Benchmark
+//    public void testMaps(MyState state) throws Exception {
+//    	@SuppressWarnings("unchecked")
+//    	ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+//    	JsonGenerator generator = state.defaultMapper.getFactory().createGenerator(outStream);
+//    	generator.writeStartArray();
+//    	for(int i=0; i<1000; i++) {
+//    		Map<String, String> properties = state.defaultMapper.readValue(state.user, Map.class);
+//        	Map<String,Object> rv = new HashMap<>();
+//        	rv.putAll(properties);
+//        	rv.put("aps", generateApsInfo());
+//    		generator.writeObject(rv);
+//    	}
+//    	generator.writeEndArray();
+//    	generator.flush();
+//    }
 
-//	@Benchmark
-//	public void testNodes(MyState state) throws Exception {
-//		ObjectNode properties = (ObjectNode) state.defaultMapper.readTree(state.user);
-//		properties.set("aps", state.defaultMapper.convertValue(generateApsInfo(), JsonNode.class));
-//		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-//		JsonGenerator generator = state.defaultMapper.getFactory().createGenerator(outStream);
-//		generator.writeStartArray();
-//		for (int i = 0; i < 1000; i++) {
-//			generator.writeObject(properties);
-//		}
-//		generator.writeEndArray();
-//		generator.flush();
-//		generator.close();
-//	}
-//	
+	@Benchmark
+	public void testNodes(MyState state) throws Exception {
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+		JsonGenerator generator = state.defaultMapper.getFactory().createGenerator(outStream);
+		generator.writeStartArray();
+		for (int i = 0; i < 1000; i++) {
+			ObjectNode properties = (ObjectNode) state.defaultMapper.readTree(state.user);
+			properties.set("aps", generateApsNode(state.defaultMapper));
+			generator.writeObject(properties);
+		}
+		generator.writeEndArray();
+		generator.flush();
+		generator.close();
+	}
+
 //	@Benchmark
 //	public void testArrayNode(MyState state) throws Exception {
-//		ObjectNode properties = (ObjectNode) state.defaultMapper.readTree(state.user);
-//		properties.set("aps", state.defaultMapper.convertValue(generateApsInfo(), JsonNode.class));
 //		ArrayNode rv = state.defaultMapper.createArrayNode();
 //		for (int i = 0; i < 1000; i++) {
+//			ObjectNode properties = (ObjectNode) state.defaultMapper.readTree(state.user);
+//			properties.set("aps", state.defaultMapper.convertValue(generateApsInfo(), JsonNode.class));
 //			rv.add(properties);
 //		}
 //		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 //		state.defaultMapper.writeValue(outStream, rv);
 //	}
-//	
-//
 }
