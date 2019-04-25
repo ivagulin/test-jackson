@@ -91,33 +91,32 @@ public class MyBenchmark {
     	generator.flush();
     }
 
-	@Benchmark
-	public void testNodes(MyState state) throws Exception {
-		ObjectNode properties = (ObjectNode) state.defaultMapper.readTree(state.user);
-		properties.set("aps", state.defaultMapper.convertValue(generateApsInfo(), JsonNode.class));
-		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-		JsonGenerator generator = state.defaultMapper.getFactory().createGenerator(outStream);
-		generator.writeStartArray();
-		for (int i = 0; i < 1000; i++) {
-			generator.writeObject(properties);
-		}
-		generator.writeEndArray();
-		generator.flush();
-		generator.close();
-	}
-	
-
-	@Benchmark
-	public void testArrayNode(MyState state) throws Exception {
-		ObjectNode properties = (ObjectNode) state.defaultMapper.readTree(state.user);
-		properties.set("aps", state.defaultMapper.convertValue(generateApsInfo(), JsonNode.class));
-		ArrayNode rv = state.defaultMapper.createArrayNode();
-		for (int i = 0; i < 1000; i++) {
-			rv.add(properties);
-		}
-		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-		state.defaultMapper.writeValue(outStream, rv);
-	}
-	
-
+//	@Benchmark
+//	public void testNodes(MyState state) throws Exception {
+//		ObjectNode properties = (ObjectNode) state.defaultMapper.readTree(state.user);
+//		properties.set("aps", state.defaultMapper.convertValue(generateApsInfo(), JsonNode.class));
+//		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+//		JsonGenerator generator = state.defaultMapper.getFactory().createGenerator(outStream);
+//		generator.writeStartArray();
+//		for (int i = 0; i < 1000; i++) {
+//			generator.writeObject(properties);
+//		}
+//		generator.writeEndArray();
+//		generator.flush();
+//		generator.close();
+//	}
+//	
+//	@Benchmark
+//	public void testArrayNode(MyState state) throws Exception {
+//		ObjectNode properties = (ObjectNode) state.defaultMapper.readTree(state.user);
+//		properties.set("aps", state.defaultMapper.convertValue(generateApsInfo(), JsonNode.class));
+//		ArrayNode rv = state.defaultMapper.createArrayNode();
+//		for (int i = 0; i < 1000; i++) {
+//			rv.add(properties);
+//		}
+//		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+//		state.defaultMapper.writeValue(outStream, rv);
+//	}
+//	
+//
 }
