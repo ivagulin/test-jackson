@@ -26,6 +26,7 @@
 package com.ivagulin;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,12 +43,15 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
 import com.google.common.collect.ImmutableMap;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class MyBenchmark {
 
 	@State(Scope.Thread)
 	public static class MyState {
-		public ObjectMapper defaultMapper = new ObjectMapper();
+		public ObjectMapper defaultMapper;
+		public Gson gson;
 
 		private String user = "   {\n" + "      \"addressPostal\":{\n" + "         \"streetAddress\":\"street\",\n"
 				+ "         \"postalCode\":\"123123\",\n" + "         \"locality\":\"Moscow\",\n"
@@ -65,6 +69,7 @@ public class MyBenchmark {
 		public void doSetup() {
 			defaultMapper = new ObjectMapper();
 //			defaultMapper.registerModule(new AfterburnerModule());
+			gson = new GsonBuilder().create();
 		}
 	}
 
@@ -132,4 +137,17 @@ public class MyBenchmark {
 //		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 //		state.defaultMapper.writeValue(outStream, rv);
 //	}
+
+//	@Benchmark
+//	public void testGson(MyState state) throws Exception {
+//		ArrayList<Object> rv = new ArrayList<>();
+//		for (int i = 0; i < 1000; i++) {
+//			@SuppressWarnings("unchecked")
+//			Map<String, Object> properties = state.gson.fromJson(state.user, Map.class);
+//			properties.put("aps", generateApsInfo());
+//			rv.add(properties);
+//		}
+//		state.gson.toJson(rv);
+//	}
+
 }

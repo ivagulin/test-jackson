@@ -1,7 +1,8 @@
 	Benchmark                        Mode  Samples    Score  Score error  Units
 	c.i.MyBenchmark.testMaps         thrpt        5  179.373       11.926  ops/s
-	c.i.MyBenchmark.testNodes        thrpt        5  199.771       10.962  ops/s
+	c.i.MyBenchmark.testNodes        thrpt        5  210.943        9.324  ops/s
 	c.i.MyBenchmark.testArrayNode    thrpt        5  154.871        8.230  ops/s
+	c.i.MyBenchmark.testGson         thrpt        5  94.654        7.013  ops/s
 	
 	....[Thread state: RUNNABLE]........................................................................
 	 34.7%  38.1% com.fasterxml.jackson.databind.deser.std.BaseNodeDeserializer.deserializeObject
